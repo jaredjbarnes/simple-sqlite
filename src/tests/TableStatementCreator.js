@@ -23,7 +23,15 @@ exports["SchemaToSqliteFactory: Address Schema."] = () => {
 exports["SchemaToSqliteFactory: Phone Number Schema."] = () => {
     const schemaToSqliteFactory = new SchemaToSqliteFactory(phoneNumberSchema);
     const createTableStatement = schemaToSqliteFactory.createTableStatement();
-    const expectedSql = `CREATE TABLE IF NOT EXISTS "address_0.0.1" ("id" INTEGER, "type" TEXT, "personId" INTEGER NOT NULL, PRIMARY KEY("id"), UNIQUE ("personId","type"), FOREIGN KEY ("personId") REFERENCES "person_0.0.1" ("id"))`;
+    const expectedSql = `CREATE TABLE IF NOT EXISTS "phoneNumber_0.0.1" ("id" INTEGER, "type" TEXT, "personId" INTEGER NOT NULL, PRIMARY KEY("id"), UNIQUE ("personId","type"), FOREIGN KEY ("personId") REFERENCES "person_0.0.1" ("id"))`;
 
     assert.equal(createTableStatement.sql, expectedSql);
+};
+
+exports["SchemaToSqliteFactory: Indexes."] = () => {
+    const schemaToSqliteFactory = new SchemaToSqliteFactory(addressSchema);
+    const indexStatement = schemaToSqliteFactory.createIndexStatements();
+    const expectedSql = `CREATE INDEX IF NOT EXIST "address_city" ON "address_0.0.1"("city");CREATE INDEX IF NOT EXIST "address_state" ON "address_0.0.1"("state");`;
+
+    assert.equal(indexStatement, expectedSql);
 };

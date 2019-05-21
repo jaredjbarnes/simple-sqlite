@@ -13,7 +13,8 @@ export default {
             "type": "TEXT",
             "name": "firstName",
             "label": "First Name",
-            "description": "The first given name."
+            "description": "The first given name.",
+            "isIndexed": true
         },
         {
             "type": "TEXT",

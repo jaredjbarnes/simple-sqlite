@@ -9,7 +9,7 @@ export default class TableCreator {
         this.database = database;
         this.schema = schema;
         this.sqliteDatabaseWrapper = new Sqlite3Wrapper(database);
-        this.schemaToSqliteFactory = new TableStatementCreator(schema);
+        this.tableStatementCreator = new TableStatementCreator(schema);
     }
 
     static async createTableIfNotExistsAsync({ database, schema }) {
@@ -58,10 +58,16 @@ export default class TableCreator {
     }
 
     async createTableIfNotExistsAsync() {
-        const {
+        let {
             sql,
             values
-        } = this.schemaToSqliteFactory.createTableStatement();
+        } = this.tableStatementCreator.createTableStatement();
+
+        const indexStatement = this.tableStatementCreator.createIndexStatements();
+        
+        if (indexStatement != null){
+            sql = `${sql}; ${indexStatement}`;
+        }
 
         return await this.sqliteDatabaseWrapper.runAsync(sql, values);
     }
@@ -70,7 +76,7 @@ export default class TableCreator {
         const {
             sql,
             values
-        } = this.schemaToSqliteFactory.createDropTableStatment();
+        } = this.tableStatementCreator.createDropTableStatment();
 
         return await this.sqliteDatabaseWrapper.runAsync(sql, values);
     }

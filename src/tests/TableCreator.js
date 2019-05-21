@@ -18,6 +18,7 @@ const testSchema = {
             "name": "text",
             "label": "Text",
             "description": "Some Description.",
+            "isIndexed": true
         },
         {
             "type": "REAL",
@@ -39,7 +40,12 @@ const testSchema = {
         }
     ],
     primaryKeys: ["id"],
-    unique: {},
+    unique: [
+        {
+            "columns": ["oneToOne"],
+            "conflictOptions": "REPLACE"
+        }
+    ],
     foreignKeys: {
         "manyToOne": {
             "label": "Source",

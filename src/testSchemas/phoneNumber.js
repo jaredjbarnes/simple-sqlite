@@ -1,7 +1,7 @@
 export default {
-    "name": "address",
-    "label": "Address",
-    "description": "Address Table",
+    "name": "phoneNumber",
+    "label": "Phone Number",
+    "description": "Phone Number Table",
     "version": "0.0.1",
     "columns": [
         {

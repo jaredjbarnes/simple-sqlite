@@ -97,7 +97,6 @@ export default class TableStatementCreator {
         name,
         type,
         isRequired,
-        isIndexed,
         defaultValue
     }) {
 
@@ -110,15 +109,30 @@ export default class TableStatementCreator {
             expression.push("NOT NULL");
         }
 
-        if (isIndexed) {
-            expression.push("INDEXED");
-        }
-
         if (defaultValue != null) {
             expression.push(this.sqlizeValue(defaultValue));
         }
 
         return expression.join(" ");
+    }
+
+    createIndexStatements() {
+        const statement = this.schema.columns.filter((column) => {
+            return column.isIndexed;
+        }).map((column) => {
+            const isUnique = column.isUnique ? " UNIQUE " : " ";
+            const tableName = this.getTableName();
+            const name = SqliteUtils.escapeName(`${this.schema.name}_${column.name}`);
+
+            const columnName = SqliteUtils.escapeName(column.name);
+            return `CREATE${isUnique}INDEX IF NOT EXIST ${name} ON ${tableName}(${columnName})`;
+        });
+
+        if (statement.length > 0) {
+            return statement.join(";") + ";";
+        } else {
+            return null;
+        }
     }
 
     createColumnsExpression() {

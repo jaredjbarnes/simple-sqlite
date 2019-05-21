@@ -7,31 +7,33 @@ export default {
         {
             "type": "INTEGER",
             "name": "id",
-            "label":"Identifier"
+            "label": "Identifier"
         },
         {
             "type": "TEXT",
             "name": "address",
             "label": "Address",
-            "description":"Street Address"
+            "description": "Street Address"
         },
         {
             "type": "TEXT",
             "name": "city",
             "label": "City",
-            "description":"City"
+            "description": "City",
+            "isIndexed": true
         },
         {
             "type": "INTEGER",
             "name": "state",
             "label": "State",
-            "description":"State"
+            "description": "State",
+            "isIndexed": true
         },
         {
             "type": "INTEGER",
             "name": "zipCode",
             "label": "Zip Code",
-            "description":"Zip Code"
+            "description": "Zip Code"
         },
         {
             "type": "INTEGER",
@@ -40,16 +42,16 @@ export default {
             "isRequired": true
         }
     ],
-    "primaryKeys":["id"],
+    "primaryKeys": ["id"],
     "foreignKeys": {
-            "personId": {
-                "label": "Person",
-                "source": {
-                    "name": "person",
-                    "version": "0.0.1",
-                    "label": "Addresses",
-                    "column": "id"
-                }
+        "personId": {
+            "label": "Person",
+            "source": {
+                "name": "person",
+                "version": "0.0.1",
+                "label": "Addresses",
+                "column": "id"
             }
+        }
     }
 };
