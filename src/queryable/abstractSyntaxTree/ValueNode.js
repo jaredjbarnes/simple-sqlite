@@ -1,6 +1,14 @@
 import Node from "./Node";
 import Queryable from "../Queryable";
 
+const isQueryable = (object) => {
+    return typeof object.type === "string" &&
+        typeof object.expression === "object" &&
+        typeof object.limit === "number" &&
+        typeof object.offset === "number" &&
+        Array.isArray(object.orderBy);
+}
+
 export default class ValueNode extends Node {
     constructor(type, value) {
         super(type);
@@ -24,8 +32,10 @@ export default class ValueNode extends Node {
             return new ValueNode("array", value);
         } else if (value instanceof Date) {
             return new ValueNode("date", value);
-        } else if (typeof value === "object" && value !== null) {
+        } else if (isQueryable(value)) {
             return new ValueNode("queryable", value);
+        } else if (typeof value === "object" && value !== null) {
+            return new ValueNode("object", value);
         } else {
             throw new Error("Unknown value type.");
         }
