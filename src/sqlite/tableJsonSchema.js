@@ -13,9 +13,6 @@ export default {
                 "name": {
                     "type": "string"
                 },
-                "version": {
-                    "type": "string"
-                },
                 "label": {
                     "type": "string"
                 },
@@ -23,7 +20,7 @@ export default {
                     "type": "string"
                 }
             },
-            "required": ["name", "version", "label", "column"]
+            "required": ["name", "label", "column"]
         },
         "foreignKey": {
             "type": "object",
@@ -102,9 +99,6 @@ export default {
         "description": {
             "type": "string"
         },
-        "version": {
-            "type": "string"
-        },
         "columns": {
             "type": "array",
             "items": {
@@ -129,5 +123,5 @@ export default {
             }
         }
     },
-    "required": ["name", "label", "version", "columns", "primaryKeys"]
+    "required": ["name", "label", "columns", "primaryKeys"]
 }

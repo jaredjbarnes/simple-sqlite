@@ -1,4 +1,3 @@
-import SchemaUtils from "../utils/SchemaUtils";
 import SqliteUtils from "../utils/SqliteUtils";
 import UniqueExpressionCreator from "./UniqueExpressionCreator";
 import SchemaValidator from "../SchemaValidator";
@@ -19,7 +18,7 @@ export default class TableStatementCreator {
     }
 
     getTableName() {
-        return SqliteUtils.escapeName(SchemaUtils.getTableNameFromSchema(this.schema));
+        return SqliteUtils.escapeName(this.schema.name);
     }
 
     removeNullOrEmptyStrings(expression) {
@@ -58,7 +57,7 @@ export default class TableStatementCreator {
         return Object.keys(foreignKeys).map((name) => {
             const column = foreignKeys[name];
             const columnName = SqliteUtils.escapeName(name);
-            const source = SqliteUtils.escapeName(SchemaUtils.getTableNameFromSchema(column.source));
+            const source = SqliteUtils.escapeName(column.source.name);
             const sourceColumn = SqliteUtils.escapeName(column.source.column);
 
             return `FOREIGN KEY (${columnName}) REFERENCES ${source} (${sourceColumn})`;
@@ -125,7 +124,7 @@ export default class TableStatementCreator {
             const name = SqliteUtils.escapeName(`${this.schema.name}_${column.name}`);
 
             const columnName = SqliteUtils.escapeName(column.name);
-            return `CREATE${isUnique}INDEX IF NOT EXIST ${name} ON ${tableName}(${columnName})`;
+            return `CREATE${isUnique}INDEX IF NOT EXIST ${name} ON ${tableName} (${columnName})`;
         });
 
         if (statement.length > 0) {

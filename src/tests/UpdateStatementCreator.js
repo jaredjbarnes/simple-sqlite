@@ -16,8 +16,8 @@ exports["UpdateStatementCreator: createStatement."] = () => {
     });
     const { sql, values } = updateStatementCreator.createStatement();
     const expected = `UPDATE "person" SET "firstName" = ? WHERE "id" = 1`;
+    
     assert.equal(values[0], "John");
-
     assert.equal(sql, expected);
     assert.equal(values[0], "John");
     assert.equal(values.length, 1);

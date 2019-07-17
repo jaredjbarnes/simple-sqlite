@@ -2,7 +2,6 @@ export default {
     "name": "phoneNumber",
     "label": "Phone Number",
     "description": "Phone Number Table",
-    "version": "0.0.1",
     "columns": [
         {
             "type": "INTEGER",
@@ -34,7 +33,6 @@ export default {
             "label": "Person",
             "source": {
                 "name": "person",
-                "version": "0.0.1",
                 "label": "Addresses",
                 "column": "id"
             }

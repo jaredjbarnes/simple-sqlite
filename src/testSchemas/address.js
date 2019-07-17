@@ -2,7 +2,6 @@ export default {
     "name": "address",
     "label": "Address",
     "description": "Address Table",
-    "version": "0.0.1",
     "columns": [
         {
             "type": "INTEGER",
@@ -48,7 +47,6 @@ export default {
             "label": "Person",
             "source": {
                 "name": "person",
-                "version": "0.0.1",
                 "label": "Addresses",
                 "column": "id"
             }

@@ -4,7 +4,6 @@ import Sqlite3Wrapper from "./Sqlite3Wrapper";
 import InsertStatementCreator from "./statements/InsertStatementCreator";
 import UpdateStatementCreator from "./statements/UpdateStatementCreator";
 import DeleteStatementCreator from "./statements/DeleteStatementCreator";
-import SchemaUtils from "./utils/SchemaUtils";
 import invokeMethodAsync from "./utils/invokeMethodAsync";
 
 export default class Table {
@@ -14,7 +13,7 @@ export default class Table {
             lifeCycleDelegate = {};
         }
 
-        this.name = SchemaUtils.getTableNameFromSchema(schema);
+        this.name = schema.name;
         this.database = database;
         this.sqliteDatabaseWrapper = new Sqlite3Wrapper(this.database);
         this.primaryKeys = schema.primaryKeys;
@@ -26,14 +25,13 @@ export default class Table {
         await invokeMethodAsync(
             this.lifeCycleDelegate,
             "canEntityBeAddedAsync",
-            [entity],
-            true
+            [entity, this.schema]
         );
 
         const alteredEntity = await invokeMethodAsync(
             this.lifeCycleDelegate,
             "prepareEntityToBeAddedAsync",
-            [entity],
+            [entity, this.schema],
             entity
         );
 
@@ -48,7 +46,7 @@ export default class Table {
         return await invokeMethodAsync(
             this.lifeCycleDelegate,
             "entityAddedAsync",
-            [alteredEntity, result],
+            [alteredEntity, result, this.schema],
             result
         );
 
@@ -59,14 +57,13 @@ export default class Table {
         await invokeMethodAsync(
             this.lifeCycleDelegate,
             "canEntityBeRemovedAsync",
-            [entity],
-            true
+            [entity, this.schema]
         );
 
         const alteredEntity = await invokeMethodAsync(
             this.lifeCycleDelegate,
             "prepareEntityToBeRemovedAsync",
-            [entity],
+            [entity, this.schema],
             entity
         );
 
@@ -81,7 +78,7 @@ export default class Table {
         return invokeMethodAsync(
             this.lifeCycleDelegate,
             "entityRemovedAsync",
-            [alteredEntity, result],
+            [alteredEntity, result, this.schema],
             result
         );
 
@@ -91,14 +88,13 @@ export default class Table {
         await invokeMethodAsync(
             this.lifeCycleDelegate,
             "canEntityBeUpdatedAsync",
-            [entity],
-            true
+            [entity, this.schema]
         );
 
         const alteredEntity = await invokeMethodAsync(
             this.lifeCycleDelegate,
             "prepareEntityToBeUpdatedAsync",
-            [entity],
+            [entity, this.schema],
             entity
         );
 
@@ -113,7 +109,7 @@ export default class Table {
         return await invokeMethodAsync(
             this.lifeCycleDelegate,
             "entityUpdatedAsync",
-            [alteredEntity, result],
+            [alteredEntity, result, this.schema],
             result
         );
 

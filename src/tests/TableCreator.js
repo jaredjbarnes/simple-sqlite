@@ -6,7 +6,6 @@ const testSchema = {
     "name": "table",
     "label": "Table",
     "description": "Some great description.",
-    "version": "1.0.1",
     "columns": [
         {
             "type": "INTEGER",
@@ -51,7 +50,6 @@ const testSchema = {
             "label": "Source",
             "source": {
                 "name": "other_table",
-                "version": "1.0.0",
                 "label": "Many",
                 "column": "id"
             }
@@ -60,7 +58,6 @@ const testSchema = {
             "label": "Source",
             "source": {
                 "name": "other_table",
-                "version": "1.0.0",
                 "label": "One",
                 "column": "id"
             }

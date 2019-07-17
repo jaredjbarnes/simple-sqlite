@@ -11,24 +11,24 @@ export default class Database {
         this.schemas = Array.isArray(schemas) ? schemas : [];
     }
 
-    hasSchema(schema) {
-        return this.getSchema(schema) != null;
+    hasSchemaWithName(name) {
+        return this.getSchemaByName(name) != null;
     }
 
-    removeSchema(schema) {
+    getSchemaByName(name) {
+        return this.schemas.find((innerSchema) => {
+            return name == innerSchema.name;
+        });
+    }
+
+    removeSchemaByName(name) {
         const index = this.schemas.findIndex(() => {
-            return schema.name == innerSchema && schema.version == innerSchema.version;
+            return name == innerSchema;
         });
 
         if (index > -1) {
             this.schemas.splice(index, 1);
         }
-    }
-
-    getSchema(schema) {
-        return this.schemas.find((innerSchema) => {
-            return schema.name == innerSchema.name && schema.version == innerSchema.version;
-        });
     }
 
     getSchemas() {
@@ -39,8 +39,8 @@ export default class Database {
         this.schemas.push(schema);
     }
 
-    removeAsync(schema) {
-        this.removeSchema(schema);
+    removeSchema(schema) {
+        this.removeSchemaByName(schema.name);
     }
 
     async createTableFromSchemaAsync(schema) {
@@ -65,8 +65,8 @@ export default class Database {
         });
     }
 
-    getTable({ name, version, lifeCycleDelegate }) {
-        const schema = this.getSchema({ name, version });
+    getTable(name, lifeCycleDelegate) {
+        const schema = this.getSchemaByName(name);
 
         if (schema == null) {
             throw new Error("Unable to find table.");
